@@ -2,12 +2,22 @@
   display: flex;
   justify-content: space-between;
   border: 5px solid black;
+<<<<<<< HEAD
 }
 .logo{
   width: 100px;
   height: 100%;
 }
 
+=======
+}
+
+.logo{
+  width: 100px;
+  height: 100%;
+}
+
+>>>>>>> 4d54e39dfb7800a6feef8089ce10ead814d5ec2f
 .nav-items{
 
 }

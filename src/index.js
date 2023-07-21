@@ -9,9 +9,6 @@ import './index.css';
 //import reportWebVitals from './reportWebVitals';
 
 
-
-
-
 const AppLayout =()=>{
   return <div className='app'>
     <Header/>
