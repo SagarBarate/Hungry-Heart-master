@@ -21,7 +21,6 @@
 
 }
 
-
 .nav-items >ul >li{
   padding: 10px;
   margin: 10px;
@@ -52,4 +51,10 @@
 .res-logo{
   height:150px ;
   width: 100%;
+}
+
+
+.filter-btn{
+  margin: 10px;
+  cursor: pointer;
 }
