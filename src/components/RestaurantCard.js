@@ -1,4 +1,5 @@
 import { CDN_URL } from "../utils/constant";
+import {useState} from "react";
 
 const styleCard ={
     backgroundColor :"#f0f0f0",
@@ -7,7 +8,7 @@ const styleCard ={
   {
     const {resData} = props;
   
-    const {cloudinaryImageId,name,cuisines,avgRating} = resData?.data.info;
+    const {cloudinaryImageId,name,cuisines,avgRating} = resData;
   
     return(
       <div className='res-card' style={styleCard}>

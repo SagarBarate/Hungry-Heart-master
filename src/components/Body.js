@@ -1,29 +1,134 @@
 import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockData";
+import { useState,useEffect } from "react";
+import Shimmer from "./Shimmer";
+
 const Body =() =>
 {
+  const [listOfRestaurant, setListofRestaurant] = useState([]);
 
-  const listOfRestaurant =[{
-    data:{
-      info:{
-      "id": "23671",
-        "name": "McDonald's",
-        "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
-        "locality": "Bellasis Road",
-        "costForTwo": "₹400 for two",
-        "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
-        "avgRating": 4.2,
-    },
-  },
-  }
-  ];
+//state variable - super powerful variable
+//     const [listOfRestaurant, setListofRestaurant] = useState([{data:{
+//       info:{
+//       "id": "23671",
+//         "name": "McDonald's",
+//         "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//         "locality": "Bellasis Road",
+//         "costForTwo": "₹400 for two",
+//         "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//         "avgRating": "4.2",
+//       }
+      
+//   }},{
+//     data:{
+//     info:{
+//       "id": "1234",
+//       "name": "KFC",
+//       "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//       "locality": "Bellasis Road",
+//       "costForTwo": "₹400 for two",
+//       "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//       "avgRating": "3.2",
+    
+//     },
+//    }
+//   },
+//   {
+//     data:{
+//     info:{
+//       "id": "1235",
+//       "name": "Macd",
+//       "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//       "locality": "Bellasis Road",
+//       "costForTwo": "₹400 for two",
+//       "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//       "avgRating": "4.1",
+//     },
+//    }
+//   }
+// ]);
 
-  return(
+//normal javascript variable 
+// let listOfRestaurant = null;
+
+//   let listOfRestaurant =[
+//     {
+//     data:{
+//       info:{
+//       "id": "23671",
+//         "name": "McDonald's",
+//         "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//         "locality": "Bellasis Road",
+//         "costForTwo": "₹400 for two",
+//         "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//         "avgRating": "4.2",
+//       }
+      
+//   },
+// },
+//   {
+//     data:{
+//     info:{
+//       "id": "1234",
+//       "name": "KFC",
+//       "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//       "locality": "Bellasis Road",
+//       "costForTwo": "₹400 for two",
+//       "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//       "avgRating": "3.2",
+    
+//     },
+//    }
+//   },
+//   {
+//     data:{
+//     info:{
+//       "id": "1235",
+//       "name": "Macd",
+//       "cloudinaryImageId": "ee5f8e06b300efc07c9fe3f4df40dfc4",
+//       "locality": "Bellasis Road",
+//       "costForTwo": "₹400 for two",
+//       "cuisines": ["Burgers","Beverages","Cafe","Desserts"],
+//       "avgRating": "4.1",
+//     },
+//    }
+//   }
+//   ];
+//
+
+useEffect(()=>{
+  fetchData();
+  },[]);
+
+const fetchData = async() =>{
+  const data = await fetch(
+   "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+  );
+
+    const json = await data.json();
+    setListofRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+
+    
+    // setFilteredRestaurant(
+    //   json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    // );
+  
+};
+
+  return listOfRestaurant.length ===0 ? <Shimmer /> :(
+    
     <div className='body'>
       <div className='filter'>
         <button className="filter-btn" onClick={()=>{
-            console.log("Button clicked");
 
+            //filter logic here 
+            const filteredList = listOfRestaurant.filter(
+            
+              (res) => res.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants.avgRatingString >4
+              
+            );
+            
+              setListofRestaurant(filteredList);
         }}
         
         >
@@ -31,8 +136,10 @@ const Body =() =>
       </div>
       <div className='res-container'>
         {listOfRestaurant.map((restaurant) => (
-          <RestaurantCard key={restaurant.data.info.id} resData={restaurant}/>
+          <RestaurantCard key={restaurant?.info.id} resData={restaurant?.info}/>
         ))}
+
+        
       </div>
     </div>
   );
@@ -41,13 +148,13 @@ const Body =() =>
 export default Body;
 
 //filter
-const arr = [5,3,5,6,7];
+// const arr = [5,3,5,6,7];
 
-function isOdd(x){
-    return x%2 === 0;
-};
+// function isOdd(x){
+//     return x%2 === 0;
+// };
 
-const output = arr.filter(isOdd);
+// const output = arr.filter(isOdd);
 
 
 
