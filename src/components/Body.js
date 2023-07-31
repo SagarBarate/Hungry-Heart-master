@@ -24,15 +24,23 @@ const fetchData = async() =>{
     setListofRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     setfilteredRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     console.log(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants[0].info.name);
+<<<<<<< HEAD
     
 
   };
+=======
+};
+>>>>>>> 808ec0cdd95c45e1d0f960a02114900ffc4bbee5
 
   return listOfRestaurant.length ===0 ? <Shimmer /> :(
     
     <div className='body'>
       <div className='filter'>
         <div className="search">
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 808ec0cdd95c45e1d0f960a02114900ffc4bbee5
           <input type="text" className="search-box" value={searchText} onChange={(e)=>{
               setSearchText(e.target.value);
           }}/>
@@ -40,14 +48,22 @@ const fetchData = async() =>{
           <button onClick={()=>{
             //Filter the restaurant cards and update the UI
             //searchText
+<<<<<<< HEAD
+=======
+            console.log(searchText);
+>>>>>>> 808ec0cdd95c45e1d0f960a02114900ffc4bbee5
 
             const filteredRestaurant = listOfRestaurant.filter(
               (res)=> { res.info.name.toLowerCase().includes(searchText.toLowerCase()) }
                  
               );
+<<<<<<< HEAD
               
               setfilteredRestaurant(filteredRestaurant);
 
+=======
+              setfilteredRestaurant(filteredRestaurant);
+>>>>>>> 808ec0cdd95c45e1d0f960a02114900ffc4bbee5
             }}>Search</button>
 
         </div>
