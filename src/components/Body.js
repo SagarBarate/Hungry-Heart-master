@@ -2,12 +2,11 @@ import RestaurantCard from "./RestaurantCard";
 import resList from "../utils/mockData";
 import { useState,useEffect } from "react";
 import Shimmer from "./Shimmer";
+import {LINK, Link} from "react-router-dom"
 
 const Body =() =>{
   const [listOfRestaurant, setListofRestaurant] = useState([]);
-
   const[filteredRestaurant, setfilteredRestaurant]=useState([])
-
   const [searchText, setSearchText] = useState("");
 
   //whenever state variable update, react triggers a reconsalation cycle (re- renders the component)
@@ -21,9 +20,9 @@ const fetchData = async() =>{
 );
 
     const json = await data.json();
+    console.log(json);
     setListofRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     setfilteredRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    console.log(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants[0].info.name);
 
 
   };
@@ -32,42 +31,53 @@ const fetchData = async() =>{
 
   return listOfRestaurant.length ===0 ? <Shimmer /> :(
     
+    console.log(listOfRestaurant);
+    
     <div className='body'>
       <div className='filter'>
         <div className="search">
 
-          <input type="text" className="search-box" value={searchText} onChange={(e)=>{
+        <input
+            type="text"
+            data-testid="searchInput"
+            className="border border-solid border-black"
+            value={searchText}
+            onChange={(e) => {
               setSearchText(e.target.value);
-          }}/>
+            }}
+          />
 
-          <button onClick={()=>{
-            //Filter the restaurant cards and update the UI
-            //searchText
+          <button
+            className="px-4 py-2 bg-green-100 m-4 rounded-lg"
+            onClick={() => {
+              // Filter the restraunt cards and update the UI
+              // searchText
+              const filteredRestaurant = listOfRestaurant.filter((res) =>
+              res.info.name.toLowerCase().includes(searchText.toLowerCase())
 
-            const filteredRestaurant = listOfRestaurant.filter(
-              (res)=> { res.info.name.toLowerCase().includes(searchText.toLowerCase()) }
-                 
-              );
-
-              setfilteredRestaurant(filteredRestaurant);
-            }}>Search</button>
+            );
+            setfilteredRestaurant(filteredRestaurant);}}>Search
+          </button>
 
         </div>
 
         <button className="filter-btn" onClick={()=>{
             const filteredList = listOfRestaurant.filter(
-              (res) => res.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants.info.avgRatingString >4
-          );
-            
-           setListofRestaurant(filteredList);
+              (res) => res.info.avgRating > 4
+            );
+        
+            setfilteredRestaurant(filteredList);
         }}
         
-        >
-          Top Rated Restaurant</button>
+        >Top Rated Restaurant</button>
       </div>
       <div className='res-container'>
+ 
         {listOfRestaurant.map((restaurant) => (
-          <RestaurantCard key={restaurant?.info.id} resData={restaurant?.info}/>
+          <Link key={restaurant.data.id} to={"/restaurants/"+restaurant.data.id}>
+            <RestaurantCard key={restaurant?.info.} resData={restaurant?.info}/>
+          </Link>
+          
         ))}
 
         
@@ -77,56 +87,4 @@ const fetchData = async() =>{
 };
 
 export default Body;
-
-//filter
-// const arr = [5,3,5,6,7];
-
-// function isOdd(x){
-//     return x%2 === 0;
-// };
-
-// const output = arr.filter(isOdd);
-
-
-
-//reduce
-//sum or max
-
-// how we used to write before the reduced
-
-// function findsum(arr){
-//     let sum =0 ;
-//     for (let i)
-// }
-
-//takes two parameter function and second is any intialize value that you need to pass in accumulator
-// and the first parameter  function have to parameter accumulator and current value accumulator is used to accumulate the values and curr 
-
-
-// const outputreduce = arr.reduce(function (acc, curr){
-
-//     acc = acc+curr;
-//     return acc;
-
-// },0);
-
-//to find maximum we can use the reduce funtion also 
-
-
-// const outputreducemax = arr.reduce(function (max, curr){
-//      if (curr< max){
-//         max =curr;
-//      }
-//      return max;
-// },0);
-// here max is accumulator and it will accumulate the maximum value whenever there is higher value than 
-// max it will get updates in the funtion and will return max once the array is empty
-
-
-//if you want to one object from list of object with perticular value of the object
-
-
-
-
-
 
