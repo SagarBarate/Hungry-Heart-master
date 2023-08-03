@@ -19,7 +19,6 @@ const styleCard ={
         <h3>{name}</h3>
         <h4> {cuisines}</h4>
         <h4> {avgRating}</h4>
-        <h4>Delivery Time: {sla.deliveryTime} Mins</h4>
       </div>
     );
   }
