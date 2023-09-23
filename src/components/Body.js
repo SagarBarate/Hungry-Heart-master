@@ -3,6 +3,7 @@ import resList from "../utils/mockData";
 import { useState,useEffect } from "react";
 import Shimmer from "./Shimmer";
 import {Link} from "react-router-dom"
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body =() =>{
   const [listOfRestaurant, setListofRestaurant] = useState([]);
@@ -11,7 +12,8 @@ const Body =() =>{
 
   //whenever state variable update, react triggers a reconsalation cycle (re- renders the component)
 
-useEffect(()=>{fetchData();
+useEffect(()=>{
+  fetchData();
 },[]);
 
 const fetchData = async() =>
@@ -23,15 +25,21 @@ const fetchData = async() =>
     setListofRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     setfilteredRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
 
-
 };
+
+const onlineStatus = useOnlineStatus();
+if(onlineStatus === false)
+  return(
+    <h1>Your internet connection is not working </h1>
+);
+
 
   return listOfRestaurant.length ===0 ? <Shimmer /> :(
         
     <div className='body'>
-      <div className='filter'>
-        <div className="search">
-
+      <div className='filter flex'>
+        <div className="search m-4 p-4 ">
+        
         <input
             type="text"
             data-testid="searchInput"
@@ -53,7 +61,7 @@ const fetchData = async() =>
             );
             setfilteredRestaurant(filteredRestaurant);}}>Search
           </button>
-
+         
         </div>
 
         <button className="filter-btn" onClick={()=>{
@@ -62,9 +70,7 @@ const fetchData = async() =>
             );
         
             setfilteredRestaurant(filteredList);
-        }}
-        
-        >Top Rated Restaurant</button>
+        }}>Top Rated Restaurant</button>
       </div>
       <div className='res-container'>
  
